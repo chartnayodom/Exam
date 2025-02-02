@@ -1,13 +1,12 @@
-'use server'
-import type { NextApiRequest, NextApiResponse } from 'next';
+import { NextRequest, NextResponse } from 'next/server';
 import pool from '../../utils/db';
 
-export default async function GET(req: NextApiRequest, res: NextApiResponse) {
+export async function GET() {
   try {
-    const [rows] = await pool.query("SELECT * FROM member");
-    res.status(200).json(rows);
+    const [rows] = await pool.query("SELECT * FROM exam.member");
+    return NextResponse.json(rows);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Database connection failed' });
+    return NextResponse.json({ error: 'Database connection failed' });
   }
 }
